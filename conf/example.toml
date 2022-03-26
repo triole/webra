@@ -1,0 +1,16 @@
+[req_root]
+url = "http://localhost:9999/"
+exp_status_code = 200
+
+[req_hallo]
+url = "http://localhost:9999/hallo"
+exp_status_code = 200
+exp_body_substring = ["Mozilla", "Firefox"]
+
+[req_with_parameter]
+url = "http://localhost:9999/?param=whatever"
+exp_body_substring = ["Mozilla", "Greyhound"]
+
+[no_404]
+url = "http://localhost:9999/?param=whatever"
+exp_status_code = 404
