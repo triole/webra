@@ -15,8 +15,8 @@ import (
 var (
 	// BUILDTAGS are injected ld flags during build
 	BUILDTAGS      string
-	appName        = "example"
-	appDescription = "a golang code example from spring"
+	appName        = "WebRA"
+	appDescription = "simple web request assertion tool"
 	appMainversion = "0.1"
 )
 
@@ -27,6 +27,7 @@ var CLI struct {
 	UserAgent   string `help:"user agent" default:${userAgent}`
 	JSONLog     bool   `help:"enable json log, instead of text one" short:j`
 	LogFile     string `help:"log file" short:l default:/dev/stdout`
+	Verbose     bool   `help:"verbose, also print positive test messages" short:v`
 	VersionFlag bool   `help:"display version" short:V`
 }
 
@@ -43,7 +44,7 @@ func parseArgs() {
 			FlagsLast:    false,
 		}),
 		kong.Vars{
-			"userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0",
+			"userAgent": appName + "/" + appMainversion + "." + getSubVersion(BUILDTAGS),
 			"curdir":    curdir,
 			"config":    path.Join(getBindir(), appName+".toml"),
 		},
@@ -65,6 +66,13 @@ type tPrinter []tPrinterEl
 type tPrinterEl struct {
 	Key string
 	Val string
+}
+
+func getSubVersion(buildtags string) (sv string) {
+	t := rxFind(`_subversion: [0-9]+`, buildtags)
+	arr := strings.Split(t, ":")
+	sv = strings.TrimSpace(arr[1])
+	return
 }
 
 func printBuildTags(buildtags string) {

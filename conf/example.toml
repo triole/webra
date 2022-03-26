@@ -5,7 +5,7 @@ exp_status_code = 200
 [req_hallo]
 url = "http://localhost:9999/hallo"
 exp_status_code = 200
-exp_body_substring = ["Mozilla", "Firefox"]
+exp_body_substring = ["WebRA"]
 
 [req_with_parameter]
 url = "http://localhost:9999/?param=whatever"
