@@ -5,17 +5,30 @@ import (
 	"net/url"
 )
 
-func request(targetURL string) (response *http.Response) {
+func request(targetURL string) (response *http.Response, errs []string) {
 	url, err := url.Parse(targetURL)
-	printErr(err)
-	client := &http.Client{}
+	if err != nil {
+		errs = append(errs, err.Error())
+		return
+	}
 
+	client := &http.Client{}
 	request, err := http.NewRequest("GET", url.String(), nil)
+	if err != nil {
+		errs = append(errs, err.Error())
+		return
+	}
+
 	request.Header.Set("User-Agent", CLI.UserAgent)
-	printErr(err)
+	if err != nil {
+		errs = append(errs, err.Error())
+		return
+	}
 
 	response, err = client.Do(request)
-	printErr(err)
+	if err != nil {
+		errs = append(errs, err.Error())
+	}
 
 	return
 }
