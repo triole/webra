@@ -71,7 +71,9 @@ type tPrinterEl struct {
 func getSubVersion(buildtags string) (sv string) {
 	t := rxFind(`_subversion: [0-9]+`, buildtags)
 	arr := strings.Split(t, ":")
-	sv = strings.TrimSpace(arr[1])
+	if len(arr) > 1 {
+		sv = strings.TrimSpace(arr[1])
+	}
 	return
 }
 
