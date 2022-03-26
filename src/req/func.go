@@ -1,11 +1,12 @@
-package main
+package req
 
 import (
 	"net/http"
 	"net/url"
 )
 
-func request(targetURL string) (response *http.Response, errs []string) {
+// HTTP makes a http request
+func (req Req) HTTP(targetURL string) (response *http.Response, errs []string) {
 	url, err := url.Parse(targetURL)
 	if err != nil {
 		errs = append(errs, err.Error())
@@ -19,7 +20,7 @@ func request(targetURL string) (response *http.Response, errs []string) {
 		return
 	}
 
-	request.Header.Set("User-Agent", CLI.UserAgent)
+	request.Header.Set("User-Agent", req.HTTPUserAgent)
 	if err != nil {
 		errs = append(errs, err.Error())
 		return

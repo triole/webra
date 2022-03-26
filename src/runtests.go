@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"strings"
 	"webra/src/assert"
+	"webra/src/req"
 )
 
 func (wra *tWebRA) runTests() {
 	for _, el := range wra.TestsIterator {
+		req := req.Init(CLI.UserAgent)
 		test := wra.TestsMap[el]
-		resp, reqErrs := request(test.URL)
+		resp, reqErrs := req.HTTP(test.URL)
 
 		if len(reqErrs) > 0 {
 			res := tResult{
