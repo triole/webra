@@ -34,6 +34,7 @@ func Init(logFile string, JSONLog bool) (lg Logging) {
 			TimestampFormat: timeStampFormat,
 			DisableQuote:    true,
 			PadLevelText:    true,
+			ForceColors:     true,
 		})
 	}
 
