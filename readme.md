@@ -13,18 +13,18 @@ WebRA is a simple Web Request Assertion engine that does http requests and evalu
 
 ```go mdox-exec="r -h"
 
-a golang code example from spring
+simple web request assertion tool
 
 Arguments:
   [<config>]    config toml file name, positional arg required
 
 Flags:
-  -h, --help                      Show context-sensitive help.
-  -p, --print-vars                print available vars
-  -d, --debug                     debug mode
-      --user-agent="Mozilla/5.0 (X11; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0"
-                                  user agent
-  -j, --json-log                  enable json log, instead of text one
-  -l, --log-file="/dev/stdout"    log file
-  -V, --version-flag              display version
+  -h, --help                       Show context-sensitive help.
+  -p, --print-vars                 print available vars
+  -d, --debug                      debug mode
+      --user-agent="WebRA/0.1."    user agent
+  -j, --json-log                   enable json log, instead of text one
+  -l, --log-file="/dev/stdout"     log file
+  -v, --verbose                    verbose, also print positive test messages
+  -V, --version-flag               display version
 ```
