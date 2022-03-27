@@ -1,0 +1,54 @@
+// 	req := req.Init(CLI.UserAgent)
+// 	test := wra.TestsMap[el]
+// 	resp, reqErrs := req.HTTP(test.URL)
+//
+// 	if len(reqErrs) > 0 {
+// 		res := tResult{
+// 			Msg: fmt.Sprintf("Request failed %s", reqErrs),
+// 		}
+// 		test.Result.List = append(test.Result.List, res)
+// 	} else {
+//
+// 		if test.ExpStatusCode != 0 {
+// 			succ := test.ExpStatusCode == resp.StatusCode
+// 			res := tResult{
+// 				Success: succ, Got: resp.StatusCode, Exp: test.ExpStatusCode,
+// 			}
+// 			if CLI.Verbose == true {
+// 				res.Msg = fmt.Sprintf("good, got %d", resp.StatusCode)
+// 			}
+// 			if succ == false {
+// 				res.Msg = fmt.Sprintf(
+// 					"status code, %d instead of %d",
+// 					resp.StatusCode, test.ExpStatusCode,
+// 				)
+// 			}
+// 			test.Result.List = append(test.Result.List, res)
+// 		}
+//
+// 		if test.ExpBodySubstrings != nil {
+// 			succ := assert.Substrings(
+// 				ioToString(resp.Body), test.ExpBodySubstrings,
+// 			)
+// 			res := tResult{
+// 				Success: succ,
+// 				Got:     resp.Body,
+// 				Exp:     test.ExpStatusCode,
+// 			}
+// 			if CLI.Verbose == true {
+// 				res.Msg = fmt.Sprintf(
+// 					"body contains %q", test.ExpBodySubstrings,
+// 				)
+// 			}
+// 			if succ == false {
+// 				res.Msg = fmt.Sprintf(
+// 					"body did not contain %q", test.ExpBodySubstrings,
+// 				)
+// 			}
+// 			test.Result.List = append(test.Result.List, res)
+// 		}
+// 		test.Result.Success = testSuccessful(test)
+// 	}
+//
+// 	test.Result.Msg = finalTestMessage(test)
+// 	wra.TestsMap[el] = test

@@ -1,16 +1,31 @@
-[req_root]
+[simple]
 url = "http://localhost:9999/"
-exp_status_code = 200
+x_status_code_equals = 200
 
-[req_hallo]
-url = "http://localhost:9999/hallo"
-exp_status_code = 200
-exp_body_substring = ["WebRA"]
+[body_contains_str]
+url = "http://localhost:9999/hello_world"
+x_status_code_equals = 200
+x_body_contains = "hello_world"
 
-[req_with_parameter]
-url = "http://localhost:9999/?param=whatever"
-exp_body_substring = ["Mozilla", "Greyhound"]
+[body_contains_list]
+url = "http://localhost:9999"
+x_status_code_equals = 200
+x_body_contains = ["Method", "Proto", "Host"]
+
+[body_contains_fail]
+url = "http://localhost:9999/hello_world"
+x_status_code_equals = 200
+x_body_contains = "ciao"
+
+[body_contains_list_fial]
+url = "http://localhost:9999"
+exp_body_substring = ["Method", "Potato", "Host"]
+
+[headers_contain]
+url = "http://localhost:9999"
+x_status_code_equals = 200
+x_header_key_val = ["Content-Type: text/plain; charset=utf-8", "Transfer-Encoding: chunked"]
 
 [no_404]
-url = "http://localhost:9999/?param=whatever"
-exp_status_code = 404
+url = "http://localhost:9999"
+x_status_code_equals = 404

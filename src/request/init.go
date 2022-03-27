@@ -1,4 +1,4 @@
-package req
+package request
 
 // Req holds the main object
 type Req struct {

@@ -11,16 +11,15 @@ var (
 )
 
 func (wra *tWebRA) report() {
-	for _, el := range wra.TestsIterator {
-		test := wra.TestsMap[el]
-		if test.Result.Success == true {
-			lg.Info(el, logrus.Fields{
-				"URL": test.URL,
+	for _, testcase := range wra.TestSuite {
+		if testcase.Result.Success == true {
+			lg.Info(testcase.Name, logrus.Fields{
+				"URL": testcase.URL,
 			})
 		} else {
-			lg.Error(el, logrus.Fields{
-				"Msg": test.Result.Msg,
-				"URL": test.URL,
+			lg.Error(testcase.Name, logrus.Fields{
+				"URL": testcase.URL,
+				"Msg": errMessage(testcase),
 			})
 		}
 	}

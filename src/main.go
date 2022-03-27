@@ -10,7 +10,9 @@ func main() {
 	parseArgs()
 	lg = logging.Init(CLI.LogFile, CLI.JSONLog)
 
-	wra := readConfigFile(CLI.Config)
-	wra.runTests()
+	conf := readConfigFile(CLI.Config)
+
+	wra := initWebRA(conf)
+	wra.runTestSuite()
 	wra.report()
 }

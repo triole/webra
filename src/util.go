@@ -31,6 +31,12 @@ func rxFind(rx string, content string) (r string) {
 	return
 }
 
+func rxMatch(rx string, str string) (b bool) {
+	re, _ := regexp.Compile(rx)
+	b = re.MatchString(str)
+	return
+}
+
 func ioToString(io io.ReadCloser) string {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(io)
