@@ -19,7 +19,7 @@ func (wra *tWebRA) report() {
 		} else {
 			lg.Error(testcase.Name, logrus.Fields{
 				"URL": testcase.URL,
-				"Msg": errMessage(testcase),
+				"Msg": testcase.Result.Msg,
 			})
 		}
 	}

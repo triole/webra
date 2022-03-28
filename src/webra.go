@@ -32,25 +32,31 @@ func initWebRA(conf tConf) (wra tWebRA) {
 		tc.Name = key
 		tc.URL = val.URL
 
+		var test tTest
+		test.Name = "Connect"
+		// TODO: think about a meaningful and functional expectation
+		test.Expectations = makeExpectations("success")
+		tc.Tests = appendExpectations(tc.Tests, test)
+
 		if val.XStatusCodeEquals != nil {
 			var test tTest
 			test.Name = "StatusCodeEquals"
 			test.Expectations = makeExpectations(val.XStatusCodeEquals)
-			tc.Tests = appendExpectations(test.Expectations, tc.Tests, test)
+			tc.Tests = appendExpectations(tc.Tests, test)
 		}
 
 		if val.XHeaderKeyVal != nil {
 			var test tTest
 			test.Name = "HeaderKeyVal"
 			test.Expectations = makeExpectations(val.XHeaderKeyVal)
-			tc.Tests = appendExpectations(test.Expectations, tc.Tests, test)
+			tc.Tests = appendExpectations(tc.Tests, test)
 		}
 
 		if val.XBodyContains != nil {
 			var test tTest
 			test.Name = "BodyContains"
 			test.Expectations = makeExpectations(val.XBodyContains)
-			tc.Tests = appendExpectations(test.Expectations, tc.Tests, test)
+			tc.Tests = appendExpectations(tc.Tests, test)
 		}
 
 		wra.TestSuite = append(wra.TestSuite, tc)
@@ -58,8 +64,8 @@ func initWebRA(conf tConf) (wra tWebRA) {
 	return
 }
 
-func appendExpectations(exp []string, tests []tTest, test tTest) []tTest {
-	if len(exp) > 0 {
+func appendExpectations(tests []tTest, test tTest) []tTest {
+	if len(test.Expectations) > 0 {
 		tests = append(tests, test)
 	}
 	return tests

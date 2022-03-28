@@ -1,3 +1,6 @@
+[can_not_connect]
+url = "http://thisdoesnotreallyexist.nope"
+
 [simple]
 url = "http://localhost:9999/"
 x_status_code_equals = 200
@@ -17,7 +20,7 @@ url = "http://localhost:9999/hello_world"
 x_status_code_equals = 200
 x_body_contains = "ciao"
 
-[body_contains_list_fial]
+[body_contains_list_fail]
 url = "http://localhost:9999"
 exp_body_substring = ["Method", "Potato", "Host"]
 
