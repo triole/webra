@@ -20,11 +20,12 @@ Arguments:
 
 Flags:
   -h, --help                       Show context-sensitive help.
-  -p, --print-vars                 print available vars
-  -d, --debug                      debug mode
-      --user-agent="WebRA/0.1."    user agent
+  -u, --user-agent="WebRA/0.1."    user agent
+  -t, --threads=64                 max threads, default no of avail. cpu threads
   -j, --json-log                   enable json log, instead of text one
   -l, --log-file="/dev/stdout"     log file
+  -x, --export=STRING              export full test data into json file
   -v, --verbose                    verbose, also print positive test messages
+  -d, --debug                      debug mode
   -V, --version-flag               display version
 ```
