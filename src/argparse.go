@@ -24,11 +24,10 @@ var (
 var CLI struct {
 	Config      string `help:"config toml file name, positional arg required" arg optional`
 	UserAgent   string `help:"user agent" default:${userAgent} short:u`
-	Threads     int    `help:"max threads, default no of avail. cpu threads" short:t default:${threads}`
+	Threads     int    `help:"max threads, default no of avail. cpu threads times 32" short:t default:${threads}`
 	JSONLog     bool   `help:"enable json log, instead of text one" short:j`
 	LogFile     string `help:"log file" short:l default:/dev/stdout`
 	Export      string `help:"export full test data into json file" short:x`
-	Verbose     bool   `help:"verbose, also print positive test messages" short:v`
 	Debug       bool   `help:"debug mode" short:d`
 	VersionFlag bool   `help:"display version" short:V`
 }
@@ -49,7 +48,7 @@ func parseArgs() {
 			"userAgent": appName + "/" + appMainversion + "." + getSubVersion(BUILDTAGS),
 			"curdir":    curdir,
 			"config":    path.Join(getBindir(), appName+".toml"),
-			"threads":   strconv.Itoa(runtime.NumCPU() * 8),
+			"threads":   strconv.Itoa(runtime.NumCPU() * 32),
 		},
 	)
 	_ = ctx.Run()
