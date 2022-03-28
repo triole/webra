@@ -5,7 +5,21 @@ import (
 )
 
 type tWebRA struct {
-	TestSuite []tTestCase
+	TestSuite tTestSuite
+}
+
+type tTestSuite []tTestCase
+
+func (arr tTestSuite) Len() int {
+	return len(arr)
+}
+
+func (arr tTestSuite) Less(i, j int) bool {
+	return arr[i].Name < arr[j].Name
+}
+
+func (arr tTestSuite) Swap(i, j int) {
+	arr[i], arr[j] = arr[j], arr[i]
 }
 
 type tTestCase struct {

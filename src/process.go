@@ -9,13 +9,32 @@ import (
 	"webra/src/request"
 )
 
-func (wra *tWebRA) runTestSuite() {
-	for idx, testcase := range wra.TestSuite {
-		wra.TestSuite[idx] = wra.runTestCase(testcase)
+type tChanProcess chan tTestCase
+type tChanDone chan bool
+
+func (wra *tWebRA) processTestSuite() {
+	chProcess := make(tChanProcess, CLI.Threads)
+	chDone := make(tChanDone, CLI.Threads)
+
+	for _, testcase := range wra.TestSuite {
+		go wra.processTestCase(testcase, chProcess, chDone)
 	}
+
+	counter := 0
+	var newTestSuite []tTestCase
+	for _ = range chDone {
+		counter++
+		newTestSuite = append(newTestSuite, <-chProcess)
+		if counter >= len(wra.TestSuite) {
+			close(chProcess)
+			close(chDone)
+			break
+		}
+	}
+	wra.TestSuite = newTestSuite
 }
 
-func (wra *tWebRA) runTestCase(testcase tTestCase) tTestCase {
+func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, chDone tChanDone) {
 	req := request.Init(CLI.UserAgent)
 	resp, responseErr := req.HTTP(testcase.URL)
 
@@ -51,15 +70,15 @@ func (wra *tWebRA) runTestCase(testcase tTestCase) tTestCase {
 				)
 			}
 			testcase.Tests[idx] = test
-
 		}
 	}
-	testcase.Result.Success = false
 	testcase.Result.Msg = wra.makeTestCaseErrMessage(testcase)
-	if testcase.Result.Msg == "" {
-		testcase.Result.Success = true
+	testcase.Result.Success = true
+	if len(testcase.Result.Msg) > 0 {
+		testcase.Result.Success = false
 	}
-	return testcase
+	chProcess <- testcase
+	chDone <- true
 }
 
 func (wra *tWebRA) assertContains(s string, test tTest) (res tResult) {

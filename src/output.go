@@ -1,6 +1,8 @@
 package main
 
 import (
+	"sort"
+
 	"github.com/fatih/color"
 	"github.com/sirupsen/logrus"
 )
@@ -11,6 +13,7 @@ var (
 )
 
 func (wra *tWebRA) report() {
+	sort.Sort(tTestSuite(wra.TestSuite))
 	for _, testcase := range wra.TestSuite {
 		if testcase.Result.Success == true {
 			lg.Info(testcase.Name, logrus.Fields{

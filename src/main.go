@@ -13,6 +13,11 @@ func main() {
 	conf := readConfigFile(CLI.Config)
 
 	wra := initWebRA(conf)
-	wra.runTestSuite()
+	wra.processTestSuite()
+
+	if CLI.Export != "" {
+		writeJSONToFile(CLI.Export, wra)
+	}
+
 	wra.report()
 }

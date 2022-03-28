@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"regexp"
 )
 
@@ -41,4 +42,12 @@ func ioToString(io io.ReadCloser) string {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(io)
 	return buf.String()
+}
+
+func writeJSONToFile(filename string, data tWebRA) {
+	rankingsJSON, _ := json.Marshal(data)
+	err := ioutil.WriteFile(filename, rankingsJSON, 0644)
+	if err != nil {
+		fmt.Printf("error saving json file %q\n", filename)
+	}
 }
