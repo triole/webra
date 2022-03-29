@@ -45,7 +45,7 @@ func ioToString(io io.ReadCloser) string {
 }
 
 func writeJSONToFile(filename string, data tWebRA) {
-	rankingsJSON, _ := json.Marshal(data)
+	rankingsJSON, _ := json.MarshalIndent(data, "", "\t")
 	err := ioutil.WriteFile(filename, rankingsJSON, 0644)
 	if err != nil {
 		fmt.Printf("error saving json file %q\n", filename)
