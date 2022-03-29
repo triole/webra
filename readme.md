@@ -7,7 +7,7 @@
 
 ## Synopsis
 
-WebRA is a simple Web Request Assertion engine that does http requests and evaluates their answer.
+WebRA is a simple Web Request Assertion engine that does http requests and evaluates their answer. It is configured by a toml file of which an example is located inside the `conf` folder. Requests are made asynchronously to provide a maximum of speed.
 
 ## Help
 
@@ -21,8 +21,9 @@ Arguments:
 Flags:
   -h, --help                       Show context-sensitive help.
   -u, --user-agent="WebRA/0.1."    user agent
-  -t, --threads=256                max threads, default no of avail. cpu threads
+  -n, --threads=256                max threads, default no of avail. cpu threads
                                    times 32
+  -t, --timeout=5                  request timeout in seconds
   -j, --json-log                   enable json log, instead of text one
   -l, --log-file="/dev/stdout"     log file
   -x, --export=STRING              export full test data into json file
