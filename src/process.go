@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"webra/src/assert"
@@ -31,6 +32,7 @@ func (wra *tWebRA) processTestSuite() {
 			break
 		}
 	}
+	sort.Sort(tTestSuite(newTestSuite))
 	wra.TestSuite = newTestSuite
 }
 
