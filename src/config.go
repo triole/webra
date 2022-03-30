@@ -10,7 +10,7 @@ import (
 type tConf map[string]tConfEntry
 
 type tConfEntry struct {
-	URL               string      `toml:"url"`
+	URLs              interface{} `toml:"url"`
 	XStatusCodeEquals interface{} `toml:"x_status_code_equals"`
 	XHeaderKeyVal     interface{} `toml:"x_header_key_val"`
 	XBodyContains     interface{} `toml:"x_body_contains"`

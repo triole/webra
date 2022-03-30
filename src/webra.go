@@ -15,7 +15,9 @@ func (arr tTestSuite) Len() int {
 }
 
 func (arr tTestSuite) Less(i, j int) bool {
-	return arr[i].Name < arr[j].Name
+	si := arr[i].Name + arr[i].URL
+	sj := arr[j].Name + arr[j].URL
+	return si < sj
 }
 
 func (arr tTestSuite) Swap(i, j int) {
@@ -42,38 +44,40 @@ type tResult struct {
 
 func initWebRA(conf tConf) (wra tWebRA) {
 	for key, val := range conf {
-		var tc tTestCase
-		tc.Name = key
-		tc.URL = val.URL
+		for _, url := range makeStringList(val.URLs) {
+			var tc tTestCase
+			tc.Name = key
+			tc.URL = url
 
-		var test tTest
-		test.Name = "Connect"
-		// TODO: think about a meaningful and functional expectation
-		test.Expectations = makeExpectations("success")
-		tc.Tests = appendExpectations(tc.Tests, test)
-
-		if val.XStatusCodeEquals != nil {
 			var test tTest
-			test.Name = "StatusCodeEquals"
-			test.Expectations = makeExpectations(val.XStatusCodeEquals)
+			test.Name = "Connect"
+			// TODO: think about a meaningful and functional expectation
+			test.Expectations = makeExpectations("success")
 			tc.Tests = appendExpectations(tc.Tests, test)
-		}
 
-		if val.XHeaderKeyVal != nil {
-			var test tTest
-			test.Name = "HeaderKeyVal"
-			test.Expectations = makeExpectations(val.XHeaderKeyVal)
-			tc.Tests = appendExpectations(tc.Tests, test)
-		}
+			if val.XStatusCodeEquals != nil {
+				var test tTest
+				test.Name = "StatusCodeEquals"
+				test.Expectations = makeExpectations(val.XStatusCodeEquals)
+				tc.Tests = appendExpectations(tc.Tests, test)
+			}
 
-		if val.XBodyContains != nil {
-			var test tTest
-			test.Name = "BodyContains"
-			test.Expectations = makeExpectations(val.XBodyContains)
-			tc.Tests = appendExpectations(tc.Tests, test)
-		}
+			if val.XHeaderKeyVal != nil {
+				var test tTest
+				test.Name = "HeaderKeyVal"
+				test.Expectations = makeExpectations(val.XHeaderKeyVal)
+				tc.Tests = appendExpectations(tc.Tests, test)
+			}
 
-		wra.TestSuite = append(wra.TestSuite, tc)
+			if val.XBodyContains != nil {
+				var test tTest
+				test.Name = "BodyContains"
+				test.Expectations = makeExpectations(val.XBodyContains)
+				tc.Tests = appendExpectations(tc.Tests, test)
+			}
+
+			wra.TestSuite = append(wra.TestSuite, tc)
+		}
 	}
 	return
 }
@@ -99,9 +103,16 @@ func makeExpectations(itf interface{}) (exp []string) {
 	return
 }
 
-func makeStringList(itfList []interface{}) (arr []string) {
-	for _, el := range itfList {
-		arr = append(arr, el.(string))
+func makeStringList(itf interface{}) (arr []string) {
+	switch val := itf.(type) {
+	case string:
+		arr = []string{val}
+	case []string:
+		arr = val
+	case []interface{}:
+		for _, el := range val {
+			arr = append(arr, el.(string))
+		}
 	}
 	return
 }

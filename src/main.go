@@ -1,6 +1,8 @@
 package main
 
-import "webra/src/logging"
+import (
+	"webra/src/logging"
+)
 
 var (
 	lg logging.Logging

@@ -6,7 +6,7 @@ url = "http://localhost:9999/"
 x_status_code_equals = 200
 
 [body_contains_str]
-url = "http://localhost:9999/hello_world"
+url = ["http://localhost:9999/hello_world", "http://localhost:9999/hello_world/"]
 x_status_code_equals = 200
 x_body_contains = "hello_world"
 
@@ -16,7 +16,7 @@ x_status_code_equals = 200
 x_body_contains = ["Method", "Proto", "Host"]
 
 [body_contains_fail]
-url = "http://localhost:9999/hello_world"
+url = ["http://localhost:9999/hello_world", "http://localhost:9999/hello_world/"]
 x_status_code_equals = 200
 x_body_contains = "ciao"
 
