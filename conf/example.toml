@@ -22,7 +22,7 @@ x_body_contains = "ciao"
 
 [body_contains_list_fail]
 url = "http://localhost:9999"
-exp_body_substring = ["Method", "Potato", "Host"]
+x_body_contains = ["Method", "Potato", "Host"]
 
 [headers_contain]
 url = "http://localhost:9999"

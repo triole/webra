@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"regexp"
+	"strconv"
 )
 
 func printErr(err error) {
@@ -50,4 +51,22 @@ func writeJSONToFile(filename string, data tWebRA) {
 	if err != nil {
 		fmt.Printf("error saving json file %q\n", filename)
 	}
+}
+
+func interfaceToStrArr(itf interface{}) (exp []string) {
+	switch val := itf.(type) {
+	case int:
+		exp = []string{strconv.Itoa(val)}
+	case int64:
+		exp = []string{strconv.Itoa(int(val))}
+	case string:
+		exp = []string{val}
+	case []string:
+		exp = val
+	case []interface{}:
+		for _, el := range val {
+			exp = append(exp, el.(string))
+		}
+	}
+	return
 }

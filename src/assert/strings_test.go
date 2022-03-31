@@ -7,7 +7,7 @@ import (
 
 func TestContainsString(t *testing.T) {
 	runTestContainsString("hello world", []string{"hello"}, true, t)
-	runTestContainsString("hello world", []string{"hello", "world"}, true, t)
+	runTestContainsString("hello world", []string{"hello", "world", "llo"}, true, t)
 	runTestContainsString("hello world", []string{"hello", "space"}, false, t)
 }
 

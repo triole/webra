@@ -40,38 +40,41 @@ func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, c
 	req := request.Init(CLI.UserAgent, CLI.Timeout)
 	resp, responseErr := req.HTTP(testcase.URL)
 
-	testcase.Tests[0].Result.Success = true
+	testcase.Assertions[0].Result.Success = true
 	if responseErr != nil {
-		testcase.Tests[0].Result.Success = false
-		testcase.Tests[0].Result.Msg = wra.addTestMessage(
-			testcase.Tests[0], "could not connect: %q", responseErr,
+		testcase.Assertions[0].Result.Success = false
+		testcase.Assertions[0].Result.Msg = wra.addTestMessage(
+			testcase.Assertions[0], "could not connect: %q", responseErr,
 		)
 	} else {
-		for idx, test := range testcase.Tests {
-			if test.Name == "StatusCodeEquals" {
-				test.Result = wra.assertEquals(strconv.Itoa(resp.StatusCode), test)
-				test.Result.Msg = wra.addTestMessage(
-					test, "status code was %d not %s",
-					resp.StatusCode, test.Expectations)
+		for idx, ase := range testcase.Assertions {
+			if ase.Name == "status_code_equals" {
+				ase.Result.Success = assert.EqualsArr(
+					strconv.Itoa(resp.StatusCode), ase.Expectations,
+				)
+				ase.Result.Msg = wra.addTestMessage(
+					ase, "status code was %d not %s",
+					resp.StatusCode, ase.Expectations)
 			}
-			testcase.Tests[idx] = test
+			testcase.Assertions[idx] = ase
 
-			if test.Name == "BodyContains" {
-				test.Result = wra.assertContains(ioToString(resp.Body), test)
-
-				test.Result.Msg = wra.addTestMessage(
-					test, "body did not contain %s", test.Expectations,
+			if ase.Name == "body_contains" {
+				ase.Result.Success = assert.ContainsArr(
+					ioToString(resp.Body), ase.Expectations,
+				)
+				ase.Result.Msg = wra.addTestMessage(
+					ase, "body did not contain %s", ase.Expectations,
 				)
 			}
-			testcase.Tests[idx] = test
+			testcase.Assertions[idx] = ase
 
-			if test.Name == "HeaderKeyVal" {
-				test.Result = wra.assertHeader(resp.Header, test)
-				test.Result.Msg = wra.addTestMessage(
-					test, "header key val not %s", test.Expectations,
+			if ase.Name == "header_key_val" {
+				ase.Result = wra.assertHeader(resp.Header, ase)
+				ase.Result.Msg = wra.addTestMessage(
+					ase, "header key val not %s", ase.Expectations,
 				)
 			}
-			testcase.Tests[idx] = test
+			testcase.Assertions[idx] = ase
 		}
 	}
 	testcase.Result.Msg = wra.makeTestCaseErrMessage(testcase)
@@ -83,20 +86,10 @@ func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, c
 	chDone <- true
 }
 
-func (wra *tWebRA) assertContains(s string, test tTest) (res tResult) {
-	res.Success = assert.ContainsArr(s, test.Expectations)
-	return
-}
-
-func (wra *tWebRA) assertEquals(s string, test tTest) (res tResult) {
-	res.Success = assert.EqualsArr(s, test.Expectations)
-	return
-}
-
-func (wra *tWebRA) assertHeader(header http.Header, test tTest) (res tResult) {
+func (wra *tWebRA) assertHeader(header http.Header, ase tAssertion) (res tResult) {
 	var exp [][]string
 	var arr []string
-	for _, el := range test.Expectations {
+	for _, el := range ase.Expectations {
 		for _, el := range strings.Split(el, ":") {
 			arr = append(
 				arr, strings.TrimSpace(el),
@@ -111,7 +104,7 @@ func (wra *tWebRA) assertHeader(header http.Header, test tTest) (res tResult) {
 
 func (wra *tWebRA) makeTestCaseErrMessage(testcase tTestCase) (s string) {
 	var arr []string
-	for _, test := range testcase.Tests {
+	for _, test := range testcase.Assertions {
 		if test.Result.Msg != "" {
 			arr = append(arr, test.Result.Msg)
 		}
@@ -120,8 +113,8 @@ func (wra *tWebRA) makeTestCaseErrMessage(testcase tTestCase) (s string) {
 	return
 }
 
-func (wra *tWebRA) addTestMessage(test tTest, msg string, itf ...interface{}) (s string) {
-	if test.Result.Success == false {
+func (wra *tWebRA) addTestMessage(ase tAssertion, msg string, itf ...interface{}) (s string) {
+	if ase.Result.Success == false {
 		if len(itf) == 1 {
 			s = fmt.Sprintf(msg, itf[0])
 		}
