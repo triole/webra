@@ -4,17 +4,13 @@ import (
 	"net/http"
 )
 
-func IterHeader(header http.Header, exp [][]string) bool {
-	for _, arr := range exp {
-		if len(arr) == 1 {
-			b := MapHasKey(header, arr[0])
-			if b == false {
-				return false
-			}
+func IterHeader(header http.Header, exp map[string]string) bool {
+	for key, val := range exp {
+		if headerHasKey(header, key) == false {
+			return false
 		}
-		if len(arr) == 2 {
-			b := MapHasKeyVal(header, arr[0], arr[1])
-			if b == false {
+		if val != "" {
+			if val != header[key][0] {
 				return false
 			}
 		}
@@ -22,10 +18,9 @@ func IterHeader(header http.Header, exp [][]string) bool {
 	return true
 }
 
-func MapHasKey(header http.Header, key string) bool {
+func headerHasKey(header http.Header, key string) bool {
+	if _, ok := header[key]; ok {
+		return true
+	}
 	return false
-}
-
-func MapHasKeyVal(header http.Header, key, val string) bool {
-	return header.Get(key) == val
 }
