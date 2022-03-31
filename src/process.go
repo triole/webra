@@ -63,15 +63,22 @@ func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, c
 					ioToString(resp.Body), ase.Expectations,
 				)
 				ase.Result.Msg = wra.addTestMessage(
-					ase, "body did not contain %s", ase.Expectations,
+					ase, "body did not contain %q", ase.Expectations,
 				)
 			}
 			testcase.Assertions[idx] = ase
 
+			if ase.Name == "header_key" {
+				ase.Result = wra.assertHeader(resp.Header, ase)
+				ase.Result.Msg = wra.addTestMessage(
+					ase, "header key not %q", ase.Expectations,
+				)
+			}
+
 			if ase.Name == "header_key_val" {
 				ase.Result = wra.assertHeader(resp.Header, ase)
 				ase.Result.Msg = wra.addTestMessage(
-					ase, "header key val not %s", ase.Expectations,
+					ase, "header key val not %q", ase.Expectations,
 				)
 			}
 			testcase.Assertions[idx] = ase
@@ -87,18 +94,17 @@ func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, c
 }
 
 func (wra *tWebRA) assertHeader(header http.Header, ase tAssertion) (res tResult) {
-	var exp [][]string
-	var arr []string
+	exp := make(map[string]string)
 	for _, el := range ase.Expectations {
-		for _, el := range strings.Split(el, ":") {
-			arr = append(
-				arr, strings.TrimSpace(el),
-			)
+		arr := strings.Split(el, ":")
+		if len(arr) < 2 {
+			arr = append(arr, "")
 		}
-		exp = append(exp, arr)
+		arr[0] = strings.TrimSpace(arr[0])
+		arr[1] = strings.TrimSpace(arr[1])
+		exp[arr[0]] = arr[1]
 	}
 	res.Success = assert.IterHeader(header, exp)
-	res.Msg = fmt.Sprintf("assert header failed %s", header)
 	return
 }
 

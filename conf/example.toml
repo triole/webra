@@ -32,3 +32,8 @@ x_header_key_val = ["Content-Type: text/plain; charset=utf-8", "Transfer-Encodin
 [no_404]
 url = "http://localhost:9999"
 x_status_code_equals = 404
+
+[headers]
+url = "http://localhost:9999"
+x_header_key = ["Date", "Content-Type"]
+x_header_key_val = ["Content-Type: text/plain; charset=utf-8"]

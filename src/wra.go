@@ -58,7 +58,7 @@ func (wra *tWebRA) initTestCases(name string, ce tConfEntry) (testcases []tTestC
 		tc = newAssertion(tc, ce, "connect", "success")
 		tc = newAssertion(tc, ce, "x_status_code_equals", nil)
 		tc = newAssertion(tc, ce, "x_header_key", nil)
-		tc = newAssertion(tc, ce, "x_header_keyval", nil)
+		tc = newAssertion(tc, ce, "x_header_key_val", nil)
 		tc = newAssertion(tc, ce, "x_body_contains", nil)
 
 		testcases = append(testcases, tc)
