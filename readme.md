@@ -1,4 +1,4 @@
-# WebRA ![example workflow](https://github.com/triole/webra/actions/workflows/build.yaml/badge.svg)
+# Web Request Assert ![example workflow](https://github.com/triole/webra/actions/workflows/build.yaml/badge.svg)
 
 <!--- mdtoc: toc begin -->
 
