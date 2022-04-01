@@ -7,7 +7,7 @@
 
 ## Synopsis
 
-WebRA is a simple Web Request Assertion engine that does http requests and evaluates their answer. It is configured by a toml file of which an example is located inside the `conf` folder. Requests are made asynchronously to provide a maximum of speed.
+Web Request Assert is a simple web request assertion engine that does http requests and evaluates their answer. Configuration is provided in a toml file of which examples can be found inside the `conf` folder. Requests are fired asynchronously to provide a maximum of speed. Basic authentication is supported as well.
 
 ## Help
 
