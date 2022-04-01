@@ -50,6 +50,7 @@ func initWebRA(conf tConf) (wra tWebRA) {
 }
 
 func (wra *tWebRA) initTestCases(name string, ce tConfEntry) (testcases []tTestCase) {
+	pprint(ce)
 	for _, url := range interfaceToStrArr(ce["url"]) {
 		tc := tTestCase{}
 		tc.Name = name
