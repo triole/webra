@@ -37,7 +37,7 @@ func (wra *tWebRA) processTestSuite() {
 }
 
 func (wra *tWebRA) processTestCase(testcase tTestCase, chProcess tChanProcess, chDone tChanDone) {
-	req := request.Init(CLI.UserAgent, CLI.Timeout)
+	req := request.Init(wra.Settings)
 	resp, responseErr := req.HTTP(testcase.URL)
 
 	testcase.Assertions[0].Result.Success = true

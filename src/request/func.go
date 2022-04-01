@@ -14,17 +14,23 @@ func (req Req) HTTP(targetURL string) (response *http.Response, errs []string) {
 		return
 	}
 
-	client := &http.Client{Timeout: time.Duration(req.Timeout) * time.Second}
+	client := &http.Client{Timeout: time.Duration(req.Settings.TimeOut) * time.Second}
 	request, err := http.NewRequest("GET", url.String(), nil)
 	if err != nil {
 		errs = append(errs, err.Error())
 		return
 	}
 
-	request.Header.Set("User-Agent", req.HTTPUserAgent)
+	request.Header.Set("User-Agent", req.Settings.UserAgent)
 	if err != nil {
 		errs = append(errs, err.Error())
 		return
+	}
+
+	if req.Settings.AuthEnabled == true {
+		request.SetBasicAuth(
+			req.Settings.AuthUser, req.Settings.AuthPass,
+		)
 	}
 
 	response, err = client.Do(request)

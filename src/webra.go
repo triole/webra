@@ -2,10 +2,12 @@ package main
 
 import (
 	"strings"
+	"webra/src/request"
 )
 
 type tWebRA struct {
 	TestSuite tTestSuite
+	Settings  request.Settings
 }
 
 type tTestSuite []tTestCase
@@ -44,13 +46,21 @@ type tResult struct {
 
 func initWebRA(conf tConf) (wra tWebRA) {
 	for key, val := range conf {
+		wra.Settings.UserAgent = CLI.UserAgent
+		wra.Settings.TimeOut = CLI.Timeout
+		if key == "__settings__" {
+			wra.Settings.AuthUser = val.getKeyStr("auth_user")
+			wra.Settings.AuthPass = val.getKeyStr("auth_pass")
+			if wra.Settings.AuthUser != "" && wra.Settings.AuthPass != "" {
+				wra.Settings.AuthEnabled = true
+			}
+		}
 		wra.TestSuite = append(wra.TestSuite, wra.initTestCases(key, val)...)
 	}
 	return
 }
 
 func (wra *tWebRA) initTestCases(name string, ce tConfEntry) (testcases []tTestCase) {
-	pprint(ce)
 	for _, url := range interfaceToStrArr(ce["url"]) {
 		tc := tTestCase{}
 		tc.Name = name

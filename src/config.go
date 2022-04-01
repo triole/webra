@@ -10,12 +10,6 @@ import (
 type tConf map[string]tConfEntry
 type tConfEntry map[string]interface{}
 
-// 	URLs              interface{} `toml:"url"`
-// 	XStatusCodeEquals interface{} `toml:"x_status_code_equals"`
-// 	XHeaderKeyVal     interface{} `toml:"x_header_key_val"`
-// 	XBodyContains     interface{} `toml:"x_body_contains"`
-// }
-
 func readConfigFile(confFile string) (conf tConf) {
 	var raw []byte
 	if confFile != "" {
@@ -42,6 +36,13 @@ func (conf tConfEntry) hasKey(key string) bool {
 func (conf tConfEntry) getKey(key string) (arr []string) {
 	if conf.hasKey(key) == true {
 		arr = interfaceToStrArr(conf[key])
+	}
+	return
+}
+
+func (conf tConfEntry) getKeyStr(key string) (s string) {
+	if conf.hasKey(key) == true {
+		s = conf[key].(string)
 	}
 	return
 }

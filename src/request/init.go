@@ -2,14 +2,21 @@ package request
 
 // Req holds the main object
 type Req struct {
-	HTTPUserAgent string
-	Timeout       int
+	Settings Settings
+}
+
+// Settings holds what it says and is also imported into webra
+type Settings struct {
+	UserAgent   string
+	TimeOut     int
+	AuthEnabled bool
+	AuthUser    string
+	AuthPass    string
 }
 
 // Init does exactly what it says
-func Init(HTTPUserAgent string, timeout int) (req Req) {
+func Init(settings Settings) (req Req) {
 	return Req{
-		HTTPUserAgent: HTTPUserAgent,
-		Timeout:       timeout,
+		Settings: settings,
 	}
 }
