@@ -25,6 +25,7 @@ Flags:
                                    times 32
   -t, --timeout=5                  request timeout in seconds
   -j, --json-log                   enable json log, instead of text one
+  -k, --log-level="info"           log level
   -l, --log-file="/dev/stdout"     log file
   -x, --export=STRING              export full test data into json file
   -d, --debug                      debug mode
