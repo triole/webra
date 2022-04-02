@@ -1,9 +1,18 @@
 package logging
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
+)
+
+var (
+	logLevels = map[string]logrus.Level{
+		"debug": logrus.DebugLevel,
+		"info":  logrus.InfoLevel,
+		"error": logrus.ErrorLevel,
+	}
 )
 
 // Logging holds the logging module
@@ -13,7 +22,7 @@ type Logging struct {
 }
 
 // Init method, does what it says
-func Init(logFile string, JSONLog bool) (lg Logging) {
+func Init(loglevel string, logFile string, JSONLog bool) (lg Logging) {
 	timeStampFormat := "2006-01-02 15:04:05.000 MST"
 	lg.Logrus = logrus.New()
 
@@ -54,7 +63,16 @@ func Init(logFile string, JSONLog bool) (lg Logging) {
 	if logFile != "/dev/stdout" {
 		lg.LogToFile = true
 	}
-
+	lg.setLevel(loglevel)
+	fmt.Printf("%q\n", lg.Logrus.Level)
 	lg.Logrus.SetOutput(openLogFile)
 	return lg
+}
+
+func (lg *Logging) setLevel(level string) {
+	if val, ok := logLevels[level]; ok {
+		lg.Logrus.SetLevel(val)
+	} else {
+		lg.setLevel("info")
+	}
 }

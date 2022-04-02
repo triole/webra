@@ -27,6 +27,7 @@ var CLI struct {
 	Threads     int    `help:"max threads, default no of avail. cpu threads times 32" short:n default:${threads}`
 	Timeout     int    `help:"request timeout in seconds" short:t default:5`
 	JSONLog     bool   `help:"enable json log, instead of text one" short:j`
+	LogLevel    string `help:"log level" short:k default:info enum:"debug,info,error"`
 	LogFile     string `help:"log file" short:l default:/dev/stdout`
 	Export      string `help:"export full test data into json file" short:x`
 	Debug       bool   `help:"debug mode" short:d`

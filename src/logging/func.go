@@ -14,6 +14,16 @@ func (lg Logging) Info(msg string, fields interface{}) {
 	}
 }
 
+// Debug logs assertions
+func (lg Logging) Debug(msg string, fields interface{}) {
+	switch val := fields.(type) {
+	case logrus.Fields:
+		lg.Logrus.WithFields(val).Debug(msg)
+	default:
+		lg.Logrus.Debug(msg)
+	}
+}
+
 // Error logs failed tests
 func (lg Logging) Error(msg interface{}, fields interface{}) {
 	var msgStr string
