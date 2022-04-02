@@ -130,3 +130,12 @@ func (wra *tWebRA) addTestMessage(ase tAssertion, msg string, itf ...interface{}
 	}
 	return
 }
+
+func (wra *tWebRA) isTestSuiteSuccessful() bool {
+	for _, testcase := range wra.TestSuite {
+		if testcase.Result.Success == false {
+			return false
+		}
+	}
+	return true
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"webra/src/logging"
 )
 
@@ -22,4 +23,8 @@ func main() {
 	}
 
 	wra.report()
+
+	if wra.isTestSuiteSuccessful() == false {
+		os.Exit(1)
+	}
 }
