@@ -1,7 +1,6 @@
 package logging
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -64,7 +63,6 @@ func Init(loglevel string, logFile string, JSONLog bool) (lg Logging) {
 		lg.LogToFile = true
 	}
 	lg.setLevel(loglevel)
-	fmt.Printf("%q\n", lg.Logrus.Level)
 	lg.Logrus.SetOutput(openLogFile)
 	return lg
 }
