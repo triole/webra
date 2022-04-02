@@ -21,7 +21,7 @@ type Logging struct {
 }
 
 // Init method, does what it says
-func Init(loglevel string, logFile string, JSONLog bool) (lg Logging) {
+func Init(loglevel, logFile string, nocolours, JSONLog bool) (lg Logging) {
 	timeStampFormat := "2006-01-02 15:04:05.000 MST"
 	lg.Logrus = logrus.New()
 
@@ -37,13 +37,18 @@ func Init(loglevel string, logFile string, JSONLog bool) (lg Logging) {
 			DisableHTMLEscape: false,
 		})
 	} else {
-		lg.Logrus.SetFormatter(&logrus.TextFormatter{
-			FullTimestamp:   true,
+		form := &logrus.TextFormatter{
+			FullTimestamp:   false,
 			TimestampFormat: timeStampFormat,
 			DisableQuote:    true,
 			PadLevelText:    true,
 			ForceColors:     true,
-		})
+		}
+		if nocolours == true {
+			form.ForceColors = false
+			form.DisableColors = true
+		}
+		lg.Logrus.SetFormatter(form)
 	}
 
 	openLogFile, err := os.OpenFile(

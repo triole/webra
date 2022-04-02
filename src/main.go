@@ -11,7 +11,7 @@ var (
 
 func main() {
 	parseArgs()
-	lg = logging.Init(CLI.LogLevel, CLI.LogFile, CLI.JSONLog)
+	lg = logging.Init(CLI.LogLevel, CLI.LogFile, CLI.NoColors, CLI.JSONLog)
 
 	conf := readConfigFile(CLI.Config)
 
