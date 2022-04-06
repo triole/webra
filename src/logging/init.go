@@ -38,7 +38,7 @@ func Init(loglevel, logFile string, nocolours, JSONLog bool) (lg Logging) {
 		})
 	} else {
 		form := &logrus.TextFormatter{
-			FullTimestamp:   false,
+			FullTimestamp:   true,
 			TimestampFormat: timeStampFormat,
 			DisableQuote:    true,
 			PadLevelText:    true,
