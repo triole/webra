@@ -1,8 +1,9 @@
 # the __settings__ block holds configuration values
-# a list of them will be stored below
+# a list of all of them will be stored in this file
 [__settings__]
 auth_user = "username"
 auth_pass = "very_secret_password"
+proxy_url = "http://localhost:9090"
 
 [simple]
 url = "http://localhost:9999/"
