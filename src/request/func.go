@@ -14,7 +14,17 @@ func (req Req) HTTP(targetURL string) (response *http.Response, errs []string) {
 		return
 	}
 
-	client := &http.Client{Timeout: time.Duration(req.Settings.TimeOut) * time.Second}
+	transport, err := req.setProxy()
+	if err != nil {
+		errs = append(errs, err.Error())
+		return
+	}
+
+	client := &http.Client{
+		Timeout:   time.Duration(req.Settings.TimeOut) * time.Second,
+		Transport: transport,
+	}
+
 	request, err := http.NewRequest("GET", url.String(), nil)
 	if err != nil {
 		errs = append(errs, err.Error())
@@ -38,5 +48,19 @@ func (req Req) HTTP(targetURL string) (response *http.Response, errs []string) {
 		errs = append(errs, err.Error())
 	}
 
+	return
+}
+
+func (req *Req) setProxy() (trans http.RoundTripper, err error) {
+	var proxyURL *url.URL
+	if req.Settings.ProxyURL != "" {
+		proxyURL, err = url.Parse(req.Settings.ProxyURL)
+		if err != nil {
+			return
+		}
+		trans = &http.Transport{
+			Proxy: http.ProxyURL(proxyURL),
+		}
+	}
 	return
 }

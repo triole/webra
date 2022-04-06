@@ -12,6 +12,7 @@ type Settings struct {
 	AuthEnabled bool
 	AuthUser    string
 	AuthPass    string
+	ProxyURL    string
 }
 
 // Init does exactly what it says

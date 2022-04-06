@@ -54,6 +54,7 @@ func initWebRA(conf tConf) (wra tWebRA) {
 			if wra.Settings.AuthUser != "" && wra.Settings.AuthPass != "" {
 				wra.Settings.AuthEnabled = true
 			}
+			wra.Settings.ProxyURL = val.getKeyStr("proxy_url")
 		}
 		wra.TestSuite = append(wra.TestSuite, wra.initTestCases(key, val)...)
 	}
