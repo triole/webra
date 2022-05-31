@@ -51,24 +51,24 @@ func Init(loglevel, logFile string, nocolours, JSONLog bool) (lg Logging) {
 		lg.Logrus.SetFormatter(form)
 	}
 
-	openLogFile, err := os.OpenFile(
-		logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644,
-	)
-	if err != nil {
-		lg.LogFatal(
-			"Can not open log file",
-			logrus.Fields{
-				"logfile": logFile,
-				"error":   err.Error(),
-			},
-		)
-	}
-
 	if logFile != "/dev/stdout" {
 		lg.LogToFile = true
+		openLogFile, err := os.OpenFile(
+			logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644,
+		)
+		if err != nil {
+			lg.LogFatal(
+				"Can not open log file",
+				logrus.Fields{
+					"logfile": logFile,
+					"error":   err.Error(),
+				},
+			)
+		}
+
+		lg.setLevel(loglevel)
+		lg.Logrus.SetOutput(openLogFile)
 	}
-	lg.setLevel(loglevel)
-	lg.Logrus.SetOutput(openLogFile)
 	return lg
 }
 
