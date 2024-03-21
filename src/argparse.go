@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/alecthomas/kong"
+	"github.com/triole/logseal"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 	appName        = "WebRA"
 	appDescription = "simple web request assertion tool"
 	appMainversion = "0.1"
+	lg             logseal.Logseal
 )
 
 var CLI struct {
@@ -26,11 +28,11 @@ var CLI struct {
 	UserAgent   string `help:"user agent" default:"${userAgent}" short:"u"`
 	Threads     int    `help:"max threads, default no of avail. cpu threads times 32" short:"n" default:"${threads}"`
 	Timeout     int    `help:"request timeout in seconds" short:"t" default:"5"`
-	NoColors    bool   `help:"disable output colours, print plain text" short:"c"`
-	JSONLog     bool   `help:"enable json log, instead of text one" short:"j"`
-	LogLevel    string `help:"log level" short:"k" default:"info" enum:"debug,info,error"`
-	LogFile     string `help:"log file" short:"l" default:"/dev/stdout"`
 	Export      string `help:"export full test data into json file" short:"x"`
+	LogFile     string `help:"log file" default:"${logfile}" short:"l"`
+	LogLevel    string `help:"log level" short:"e" default:"info" enum:"trace,debug,info,error"`
+	LogNoColors bool   `help:"disable output colours, print plain text"`
+	LogJSON     bool   `help:"enable json log, instead of text one"`
 	Debug       bool   `help:"debug mode" short:"d"`
 	VersionFlag bool   `help:"display version" short:"V"`
 }
@@ -48,6 +50,7 @@ func parseArgs() {
 			FlagsLast:    false,
 		}),
 		kong.Vars{
+			"logfile":   "stdout",
 			"userAgent": appName + "/" + appMainversion + "." + getSubVersion(BUILDTAGS),
 			"curdir":    curdir,
 			"config":    path.Join(getBindir(), appName+".toml"),

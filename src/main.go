@@ -2,16 +2,13 @@ package main
 
 import (
 	"os"
-	"webra/src/logging"
-)
 
-var (
-	lg logging.Logging
+	"github.com/triole/logseal"
 )
 
 func main() {
 	parseArgs()
-	lg = logging.Init(CLI.LogLevel, CLI.LogFile, CLI.NoColors, CLI.JSONLog)
+	lg = logseal.Init(CLI.LogLevel, CLI.LogFile, CLI.LogNoColors, CLI.LogJSON)
 
 	conf := readConfigFile(CLI.Config)
 
