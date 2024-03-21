@@ -23,7 +23,7 @@ func (wra *tWebRA) processTestSuite() {
 
 	counter := 0
 	var newTestSuite []tTestCase
-	for _ = range chDone {
+	for range chDone {
 		counter++
 		newTestSuite = append(newTestSuite, <-chProcess)
 		if counter >= len(wra.TestSuite) {
@@ -120,7 +120,7 @@ func (wra *tWebRA) makeTestCaseErrMessage(testcase tTestCase) (s string) {
 }
 
 func (wra *tWebRA) addTestMessage(ase tAssertion, msg string, itf ...interface{}) (s string) {
-	if ase.Result.Success == false {
+	if !ase.Result.Success {
 		if len(itf) == 1 {
 			s = fmt.Sprintf(msg, itf[0])
 		}
@@ -133,7 +133,7 @@ func (wra *tWebRA) addTestMessage(ase tAssertion, msg string, itf ...interface{}
 
 func (wra *tWebRA) isTestSuiteSuccessful() bool {
 	for _, testcase := range wra.TestSuite {
-		if testcase.Result.Success == false {
+		if !testcase.Result.Success {
 			return false
 		}
 	}

@@ -10,22 +10,22 @@ import (
 	"strconv"
 )
 
-func printErr(err error) {
-	if err != nil {
-		fmt.Printf("%s\n", err)
-	}
-}
+// func printErr(err error) {
+// 	if err != nil {
+// 		fmt.Printf("%s\n", err)
+// 	}
+// }
 
-func pprint(i interface{}) {
-	s, _ := json.MarshalIndent(i, "", "\t")
-	fmt.Println(string(s))
-}
+// func pprint(i interface{}) {
+// 	s, _ := json.MarshalIndent(i, "", "\t")
+// 	fmt.Println(string(s))
+// }
 
-func rxFindAll(rx string, str string) (arr []string) {
-	re := regexp.MustCompile(rx)
-	arr = re.FindAllString(str, -1)
-	return
-}
+// func rxFindAll(rx string, str string) (arr []string) {
+// 	re := regexp.MustCompile(rx)
+// 	arr = re.FindAllString(str, -1)
+// 	return
+// }
 
 func rxFind(rx string, content string) (r string) {
 	temp, _ := regexp.Compile(rx)
@@ -33,11 +33,11 @@ func rxFind(rx string, content string) (r string) {
 	return
 }
 
-func rxMatch(rx string, str string) (b bool) {
-	re, _ := regexp.Compile(rx)
-	b = re.MatchString(str)
-	return
-}
+// func rxMatch(rx string, str string) (b bool) {
+// 	re, _ := regexp.Compile(rx)
+// 	b = re.MatchString(str)
+// 	return
+// }
 
 func ioToString(io io.ReadCloser) string {
 	buf := new(bytes.Buffer)

@@ -84,7 +84,7 @@ func newAssertion(tc tTestCase, ce tConfEntry, key string, exp interface{}) tTes
 	if exp != nil {
 		ase.Expectations = interfaceToStrArr(exp)
 	} else {
-		if ce.hasKey(key) == true || key == "" {
+		if ce.hasKey(key) || key == "" {
 			ase.Expectations = interfaceToStrArr(ce.getKey(key))
 		}
 	}

@@ -24,7 +24,7 @@ func main() {
 
 	wra.report()
 
-	if wra.isTestSuiteSuccessful() == false {
+	if !wra.isTestSuiteSuccessful() {
 		os.Exit(1)
 	}
 }

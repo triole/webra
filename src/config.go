@@ -1,8 +1,8 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/pelletier/go-toml"
 )
@@ -14,7 +14,7 @@ func readConfigFile(confFile string) (conf tConf) {
 	var raw []byte
 	if confFile != "" {
 		var err error
-		raw, err = ioutil.ReadFile(confFile)
+		raw, err = os.ReadFile(confFile)
 		if err != nil {
 			log.Fatalf("Error reading config %q, %q", confFile, err)
 		}
@@ -34,14 +34,14 @@ func (conf tConfEntry) hasKey(key string) bool {
 }
 
 func (conf tConfEntry) getKey(key string) (arr []string) {
-	if conf.hasKey(key) == true {
+	if conf.hasKey(key) {
 		arr = interfaceToStrArr(conf[key])
 	}
 	return
 }
 
 func (conf tConfEntry) getKeyStr(key string) (s string) {
-	if conf.hasKey(key) == true {
+	if conf.hasKey(key) {
 		s = conf[key].(string)
 	}
 	return

@@ -22,17 +22,17 @@ var (
 )
 
 var CLI struct {
-	Config      string `help:"config toml file name, positional arg required" arg optional`
-	UserAgent   string `help:"user agent" default:${userAgent} short:u`
-	Threads     int    `help:"max threads, default no of avail. cpu threads times 32" short:n default:${threads}`
-	Timeout     int    `help:"request timeout in seconds" short:t default:5`
-	NoColors    bool   `help:"disable output colours, print plain text" short:c`
-	JSONLog     bool   `help:"enable json log, instead of text one" short:j`
-	LogLevel    string `help:"log level" short:k default:info enum:"debug,info,error"`
-	LogFile     string `help:"log file" short:l default:/dev/stdout`
-	Export      string `help:"export full test data into json file" short:x`
-	Debug       bool   `help:"debug mode" short:d`
-	VersionFlag bool   `help:"display version" short:V`
+	Config      string `help:"config toml file name, positional arg required" arg:"" optional:""`
+	UserAgent   string `help:"user agent" default:"${userAgent}" short:"u"`
+	Threads     int    `help:"max threads, default no of avail. cpu threads times 32" short:"n" default:"${threads}"`
+	Timeout     int    `help:"request timeout in seconds" short:"t" default:"5"`
+	NoColors    bool   `help:"disable output colours, print plain text" short:"c"`
+	JSONLog     bool   `help:"enable json log, instead of text one" short:"j"`
+	LogLevel    string `help:"log level" short:"k" default:"info" enum:"debug,info,error"`
+	LogFile     string `help:"log file" short:"l" default:"/dev/stdout"`
+	Export      string `help:"export full test data into json file" short:"x"`
+	Debug       bool   `help:"debug mode" short:"d"`
+	VersionFlag bool   `help:"display version" short:"V"`
 }
 
 func parseArgs() {
@@ -56,7 +56,7 @@ func parseArgs() {
 	)
 	_ = ctx.Run()
 
-	if CLI.VersionFlag == true {
+	if CLI.VersionFlag {
 		printBuildTags(BUILDTAGS)
 		os.Exit(0)
 	}
